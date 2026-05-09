@@ -35,14 +35,16 @@ function isNonEmpty(s: unknown): s is string {
   return typeof s === 'string' && s.trim().length > 0;
 }
 
-function escapeMarkdown(s: string) {
-  return s.replace(/[_*[\]()~`>#+=|{}.!\\-]/g, (c) => `\\${c}`);
-}
-
 async function notifyTelegram(text: string) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) return { ok: false, skipped: true as const };
+  if (!token || !chatId) {
+    console.warn('[bookings] Telegram env vars missing', {
+      hasToken: !!token,
+      hasChatId: !!chatId,
+    });
+    return { ok: false as const, skipped: true as const };
+  }
 
   const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
@@ -50,13 +52,12 @@ async function notifyTelegram(text: string) {
     body: JSON.stringify({
       chat_id: chatId,
       text,
-      parse_mode: 'MarkdownV2',
       disable_web_page_preview: true,
     }),
   });
+  const body = await res.text().catch(() => '');
   if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    return { ok: false as const, error: body };
+    return { ok: false as const, error: `${res.status} ${body}` };
   }
   return { ok: true as const };
 }
@@ -116,19 +117,19 @@ export async function POST(req: NextRequest) {
     : '—';
 
   const lines = [
-    '*🆕 Yeni Rezervasyon Talebi*',
+    '🆕 Yeni Rezervasyon Talebi',
     '',
-    `*Ad:* ${escapeMarkdown(name)}`,
-    `*Telefon:* ${escapeMarkdown(phone)}`,
-    `*E-posta:* ${escapeMarkdown(email)}`,
-    `*Hizmetler:* ${escapeMarkdown(serviceText)}`,
-    `*Mülk:* ${escapeMarkdown(propertyText)}${
+    `Ad: ${name}`,
+    `Telefon: ${phone}`,
+    `E-posta: ${email}`,
+    `Hizmetler: ${serviceText}`,
+    `Mülk: ${propertyText}${
       typeof payload.meters === 'number' ? ` · ${payload.meters} m²` : ''
     }`,
-    `*Konum:* ${escapeMarkdown(payload.city || '—')}`,
+    `Konum: ${payload.city || '—'}`,
   ];
   if (isNonEmpty(payload.notes)) {
-    lines.push('', `*Not:*\n${escapeMarkdown(payload.notes!)}`);
+    lines.push('', `Not:`, payload.notes!);
   }
   const text = lines.join('\n');
 
@@ -136,9 +137,19 @@ export async function POST(req: NextRequest) {
     ok: false as const,
     error: err instanceof Error ? err.message : 'telegram error',
   }));
-  if ('error' in tg && tg.error) {
-    console.error('[bookings] telegram failed:', tg.error);
+  if ('ok' in tg && tg.ok) {
+    console.log('[bookings] ✅ telegram sent');
+  } else if ('error' in tg && tg.error) {
+    console.error('[bookings] ❌ telegram failed:', tg.error);
+  } else if ('skipped' in tg && tg.skipped) {
+    console.warn('[bookings] ⚠️ telegram skipped (env vars missing)');
   }
 
-  return NextResponse.json({ ok: true, id: createdId });
+  console.log('[bookings] ✅ sanity write ok, id:', createdId);
+
+  return NextResponse.json({
+    ok: true,
+    id: createdId,
+    telegram: 'ok' in tg && tg.ok ? 'sent' : 'skipped',
+  });
 }

@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useReveal } from './useReveal';
 import { urlFor } from '@/sanity/lib/image';
 import type { BeforeAfterPair } from '@/types/sanity';
@@ -88,16 +89,20 @@ export function BeforeAfter({ pairs }: BeforeAfterProps) {
             onTouchStart={onDown}
             style={{ ['--ba-pos' as any]: pos + '%' }}
           >
-            <img
+            <Image
               className="ba-img"
               src={urlFor(cur.before as any).width(1600).url()}
               alt="Before"
+              fill
+              sizes="(max-width: 900px) 100vw, 1200px"
             />
             <div className="ba-after-clip">
-              <img
+              <Image
                 className="ba-img"
                 src={urlFor(cur.after as any).width(1600).url()}
                 alt="After"
+                fill
+                sizes="(max-width: 900px) 100vw, 1200px"
               />
             </div>
             <div className="ba-handle">
@@ -117,7 +122,12 @@ export function BeforeAfter({ pairs }: BeforeAfterProps) {
                   setPos(50);
                 }}
               >
-                <img src={urlFor(p.after as any).width(400).url()} alt={p.label} />
+                <Image
+                  src={urlFor(p.after as any).width(400).url()}
+                  alt={p.label}
+                  fill
+                  sizes="96px"
+                />
               </div>
             ))}
             <div

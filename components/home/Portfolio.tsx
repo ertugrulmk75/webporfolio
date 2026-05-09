@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useReveal } from './useReveal';
 import { urlFor } from '@/sanity/lib/image';
@@ -35,9 +36,11 @@ export function Portfolio({ projects }: PortfolioProps) {
           {projects.map((p) => (
             <div key={p._id} className={`proj span-${p.span} ${p.kind}`}>
               <div className="proj-img">
-                <img
+                <Image
                   src={urlFor(p.mainImage as any).width(1600).url()}
                   alt={p.name}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 33vw"
                   loading="lazy"
                 />
               </div>

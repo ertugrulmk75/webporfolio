@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useReveal } from './useReveal';
 import { urlFor } from '@/sanity/lib/image';
 import type { SiteSettings } from '@/types/sanity';
@@ -65,7 +66,13 @@ export function Hero({ onBook, hero, variant = 'a' }: HeroProps) {
         </div>
 
         <div className="reveal hero-photo">
-          <img src={heroImg} alt="Featured property" />
+          <Image
+            src={heroImg}
+            alt="Featured property"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 50vw"
+          />
           <div className="hero-photo-meta">
             <b>{featuredName}</b>
             <span>{featuredMeta}</span>

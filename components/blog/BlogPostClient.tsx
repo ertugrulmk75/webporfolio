@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { PortableText, type PortableTextComponents } from '@portabletext/react';
 import { Nav } from '@/components/home/Nav';
@@ -56,6 +57,7 @@ export default function BlogPostClient({
     <>
       <Nav onBook={onBook} settings={settings} />
 
+      <main id="main">
       <header className="article-hero">
         <div className="breadcrumb">
           <Link href="/">Anasayfa</Link>
@@ -79,9 +81,12 @@ export default function BlogPostClient({
 
       {post.cover && (
         <div className="article-hero-img">
-          <img
+          <Image
             src={urlFor(post.cover as any).width(1600).url()}
             alt={post.title}
+            fill
+            priority
+            sizes="(max-width: 1200px) 100vw, 1200px"
           />
         </div>
       )}
@@ -105,9 +110,11 @@ export default function BlogPostClient({
           <div className="article-author">
             <div className="av">
               {avatarUrl ? (
-                <img
+                <Image
                   src={avatarUrl}
                   alt={author.name}
+                  width={120}
+                  height={120}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                 />
               ) : (
@@ -134,9 +141,12 @@ export default function BlogPostClient({
               >
                 <div className="img">
                   {r.cover && (
-                    <img
+                    <Image
                       src={urlFor(r.cover as any).width(1600).url()}
                       alt={r.title}
+                      fill
+                      sizes="(max-width: 900px) 100vw, 33vw"
+                      loading="lazy"
                     />
                   )}
                 </div>
@@ -144,13 +154,14 @@ export default function BlogPostClient({
                   {r.category?.name ?? ''}
                   {r.readTime ? ` · ${r.readTime}` : ''}
                 </div>
-                <h4>{r.title}</h4>
+                <h3>{r.title}</h3>
               </Link>
             ))}
           </div>
         </section>
       )}
 
+      </main>
       <Footer settings={settings} />
       {bookingOpen && <BookingModal onClose={() => setBookingOpen(false)} />}
     </>

@@ -21,17 +21,19 @@ export default function HomeClient({ data }: { data: HomePageData }) {
   return (
     <>
       <Nav onBook={onBook} settings={data.settings} />
-      <Hero onBook={onBook} hero={data.settings?.hero} variant="a" />
-      {v.ticker !== false && <Ticker items={data.ticker} />}
-      {v.services !== false && <Services services={data.services} />}
-      {v.portfolio !== false && <Portfolio projects={data.homeProjects} />}
-      {v.beforeAfter !== false && <BeforeAfter pairs={data.beforeAfter} />}
-      {v.process !== false && <Process steps={data.processSteps} />}
-      {v.pricing !== false && <Pricing tiers={data.pricingTiers} onBook={onBook} />}
-      {v.testimonials !== false && <Testimonials items={data.testimonials} />}
-      {v.finalCta !== false && (
-        <FinalCTA onBook={onBook} phone={data.settings?.contact?.phone} />
-      )}
+      <main id="main">
+        <Hero onBook={onBook} hero={data.settings?.hero} variant="a" />
+        {v.ticker !== false && <Ticker items={data.ticker} />}
+        {v.services !== false && <Services services={data.services} />}
+        {v.portfolio !== false && <Portfolio projects={data.homeProjects} />}
+        {v.beforeAfter !== false && <BeforeAfter pairs={data.beforeAfter} />}
+        {v.process !== false && <Process steps={data.processSteps} />}
+        {v.pricing !== false && <Pricing tiers={data.pricingTiers} onBook={onBook} />}
+        {v.testimonials !== false && <Testimonials items={data.testimonials} />}
+        {v.finalCta !== false && (
+          <FinalCTA onBook={onBook} phone={data.settings?.contact?.phone} />
+        )}
+      </main>
       <Footer settings={data.settings} />
       {bookingOpen && <BookingModal onClose={() => setBookingOpen(false)} />}
     </>

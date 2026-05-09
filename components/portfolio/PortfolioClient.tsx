@@ -1,5 +1,6 @@
 'use client';
 import { useMemo, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Nav } from '@/components/home/Nav';
 import { Footer } from '@/components/home/Footer';
@@ -70,6 +71,7 @@ export default function PortfolioClient({ data }: { data: PortfolioPageData }) {
     <>
       <Nav onBook={() => setBookingOpen(true)} settings={data?.settings} />
 
+      <main id="main">
       <header className="page-hero">
         <div className="wrap">
           <div className="breadcrumb">
@@ -115,7 +117,15 @@ export default function PortfolioClient({ data }: { data: PortfolioPageData }) {
           return (
             <div key={p._id} className={`proj span-${p.span} ${p.kind}`}>
               <div className="proj-img">
-                {src && <img src={src} alt={p.name} loading="lazy" />}
+                {src && (
+                  <Image
+                    src={src}
+                    alt={p.name}
+                    fill
+                    sizes="(max-width: 900px) 100vw, 33vw"
+                    loading="lazy"
+                  />
+                )}
                 <div className="proj-overlay">
                   <div className="badge">
                     {p.category?.name ?? '—'} · {p.year ?? ''}
@@ -146,6 +156,7 @@ export default function PortfolioClient({ data }: { data: PortfolioPageData }) {
           </p>
         </div>
       )}
+      </main>
 
       <Footer settings={data?.settings} />
       {bookingOpen && <BookingModal onClose={() => setBookingOpen(false)} />}

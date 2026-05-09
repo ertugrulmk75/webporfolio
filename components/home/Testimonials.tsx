@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useReveal } from './useReveal';
 import { urlFor } from '@/sanity/lib/image';
 import type { Testimonial } from '@/types/sanity';
@@ -50,9 +51,11 @@ export function Testimonials({ items }: TestimonialsProps) {
                   <div className="tst-meta">
                     <div className="tst-avatar">
                       {avatarUrl ? (
-                        <img
+                        <Image
                           src={avatarUrl}
                           alt={t.name}
+                          width={80}
+                          height={80}
                           style={{
                             width: '100%',
                             height: '100%',

@@ -42,7 +42,7 @@ export function Footer({ settings }: FooterProps) {
           <p>{desc}</p>
         </div>
         <div>
-          <h4>Stüdyo</h4>
+          <h3>Stüdyo</h3>
           <ul>
             <li>
               <a href="#services">Hizmetler</a>
@@ -63,7 +63,7 @@ export function Footer({ settings }: FooterProps) {
         </div>
         {hasContact && (
           <div>
-            <h4>İletişim</h4>
+            <h3>İletişim</h3>
             <ul>
               {email && (
                 <li>
@@ -85,7 +85,7 @@ export function Footer({ settings }: FooterProps) {
         )}
         {socialLinks.length > 0 && (
           <div>
-            <h4>Sosyal</h4>
+            <h3>Sosyal</h3>
             <ul>
               {socialLinks.map((s) => (
                 <li key={s.key}>

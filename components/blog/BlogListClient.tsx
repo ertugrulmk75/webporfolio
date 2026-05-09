@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Nav } from '@/components/home/Nav';
 import { Footer } from '@/components/home/Footer';
@@ -60,6 +61,7 @@ export default function BlogListClient({ posts, settings }: BlogListClientProps)
     <>
       <Nav onBook={onBook} settings={settings} />
 
+      <main id="main">
       <header className="page-hero">
         <div className="wrap">
           <div className="breadcrumb">
@@ -102,9 +104,11 @@ export default function BlogListClient({ posts, settings }: BlogListClientProps)
             <article className="blog-featured">
               <div className="ft-img">
                 {featured.cover && (
-                  <img
+                  <Image
                     src={urlFor(featured.cover as any).width(1600).url()}
                     alt={featured.title}
+                    fill
+                    sizes="(max-width: 900px) 100vw, 50vw"
                   />
                 )}
               </div>
@@ -142,9 +146,11 @@ export default function BlogListClient({ posts, settings }: BlogListClientProps)
                 </div>
                 <div className="blog-thumb">
                   {p.cover && (
-                    <img
+                    <Image
                       src={urlFor(p.cover as any).width(1600).url()}
                       alt={p.title}
+                      fill
+                      sizes="(max-width: 900px) 100vw, 33vw"
                       loading="lazy"
                     />
                   )}
@@ -155,6 +161,7 @@ export default function BlogListClient({ posts, settings }: BlogListClientProps)
         </>
       )}
 
+      </main>
       <Footer settings={settings} />
       {bookingOpen && <BookingModal onClose={() => setBookingOpen(false)} />}
     </>

@@ -233,8 +233,7 @@ export function BookingModal({ onClose }: BookingModalProps) {
                 <>
                   <h3>Talebinizin özeti.</h3>
                   <p className="lede">
-                    Bilgileri kontrol edip gönderin. Ekibimiz 24 saat içinde sizinle iletişime
-                    geçecek.
+                    Bilgileri kontrol edip gönderin. En kısa sürede sizinle iletişime geçeceğiz.
                   </p>
 
                   <div className="summary">
@@ -320,10 +319,7 @@ export function BookingModal({ onClose }: BookingModalProps) {
               <div className="success-state">
                 <div className="check">✓</div>
                 <h3 className="display">Talebiniz alındı.</h3>
-                <p>
-                  24 saat içinde sizi arayacağız ve detayları planlayacağız. {email} adresine
-                  onay maili gönderildi.
-                </p>
+                <p>En kısa sürede sizinle iletişime geçeceğiz.</p>
                 <div style={{ marginTop: 32 }}>
                   <button className="btn" onClick={onClose}>
                     Tamam <span className="arrow">→</span>

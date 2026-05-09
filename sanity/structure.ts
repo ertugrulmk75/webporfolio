@@ -75,6 +75,14 @@ export const structure: StructureResolver = (S) =>
         ),
       S.divider(),
       S.listItem()
+        .title('Rezervasyon Talepleri')
+        .child(
+          S.documentTypeList('booking')
+            .title('Rezervasyon Talepleri')
+            .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
+        ),
+      S.divider(),
+      S.listItem()
         .title('Blog')
         .child(
           S.list()

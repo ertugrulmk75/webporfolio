@@ -34,6 +34,8 @@ export function BookingModal({ onClose }: BookingModalProps) {
   const [email, setEmail] = useState('');
   const [notes, setNotes] = useState('');
   const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -54,8 +56,35 @@ export function BookingModal({ onClose }: BookingModalProps) {
     return true;
   };
 
-  const submit = () => {
-    setDone(true);
+  const submit = async () => {
+    if (submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: phone.trim(),
+          email: email.trim(),
+          services,
+          propertyType: propType,
+          meters,
+          city: city.trim(),
+          notes: notes.trim(),
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || 'Talebiniz gönderilemedi.');
+      }
+      setDone(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Bir hata oluştu.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -239,6 +268,11 @@ export function BookingModal({ onClose }: BookingModalProps) {
                       </span>
                     </div>
                   </div>
+                  {error && (
+                    <p style={{ color: '#c0392b', marginTop: 12, fontSize: 14 }}>
+                      {error}
+                    </p>
+                  )}
                 </>
               )}
             </div>
@@ -261,8 +295,14 @@ export function BookingModal({ onClose }: BookingModalProps) {
                     Devam <span className="arrow">→</span>
                   </button>
                 ) : (
-                  <button className="btn" onClick={submit}>
-                    Talebi gönder <span className="arrow">✓</span>
+                  <button
+                    className="btn"
+                    onClick={submit}
+                    disabled={submitting}
+                    style={submitting ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
+                  >
+                    {submitting ? 'Gönderiliyor…' : 'Talebi gönder'}{' '}
+                    <span className="arrow">✓</span>
                   </button>
                 )}
               </div>

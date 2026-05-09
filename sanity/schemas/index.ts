@@ -10,6 +10,7 @@ import blogCategory from './blogCategory';
 import author from './author';
 import beforeAfterPair from './beforeAfterPair';
 import tickerItem from './tickerItem';
+import booking from './booking';
 
 export const schemaTypes = [
   siteSettings,
@@ -24,4 +25,5 @@ export const schemaTypes = [
   author,
   beforeAfterPair,
   tickerItem,
+  booking,
 ];

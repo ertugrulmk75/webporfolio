@@ -272,18 +272,20 @@ img { display: block; max-width: 100%; }
 /* ── Hero ── */
 .hero {
   position: relative;
-  min-height: 100vh;
-  padding-top: 120px;
-  padding-bottom: 60px;
-  display: grid;
-  grid-template-rows: 1fr auto;
+  min-height: clamp(640px, 92vh, 980px);
+  padding-top: clamp(110px, 14vh, 160px);
+  padding-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(32px, 5vh, 56px);
   overflow: hidden;
 }
 .hero-grid {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: clamp(24px, 4vw, 64px);
-  align-items: end;
+  align-items: center;
   padding: 0 var(--pad-x);
   max-width: var(--max);
   margin: 0 auto;
@@ -292,8 +294,8 @@ img { display: block; max-width: 100%; }
 .hero-headline {
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(56px, 9.5vw, 144px);
-  line-height: 0.92;
+  font-size: clamp(52px, 7vw, 112px);
+  line-height: 0.94;
   letter-spacing: -0.025em;
   margin-bottom: 28px;
 }
@@ -309,6 +311,7 @@ img { display: block; max-width: 100%; }
 .hero-photo {
   position: relative;
   aspect-ratio: 4/5;
+  max-height: 640px;
   background: var(--paper-2);
   overflow: hidden;
   border-radius: var(--radius);

@@ -33,12 +33,12 @@ export function Nav({ onBook, settings }: NavProps) {
   };
 
   const links: LinkItem[] = [
-    ['Hizmetler', '#services'],
+    ['Hizmetler', '/#services', true],
     ['Portfolyo', '/portfolyo', true],
     ['Blog', '/blog', true],
-    ['Süreç', '#process'],
-    ['Fiyatlar', '#pricing'],
-    ['İletişim', '#contact'],
+    ['Süreç', '/#process', true],
+    ['Fiyatlar', '/#pricing', true],
+    ['İletişim', '/#contact', true],
   ];
 
   const renderLink = (
@@ -60,10 +60,10 @@ export function Nav({ onBook, settings }: NavProps) {
   return (
     <>
       <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
-        <a href="#top" className="nav-logo">
+        <Link href="/#top" className="nav-logo">
           {title}
           <span className="dot"></span>
-        </a>
+        </Link>
         <div className="nav-links">{links.map((l) => renderLink(l))}</div>
         <button className="nav-cta nav-cta-d" onClick={onBook}>
           Rezervasyon

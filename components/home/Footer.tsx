@@ -45,7 +45,7 @@ export function Footer({ settings }: FooterProps) {
           <h3>Stüdyo</h3>
           <ul>
             <li>
-              <a href="#services">Hizmetler</a>
+              <Link href="/#services">Hizmetler</Link>
             </li>
             <li>
               <Link href="/portfolyo">Portfolyo</Link>
@@ -54,10 +54,10 @@ export function Footer({ settings }: FooterProps) {
               <Link href="/blog">Blog</Link>
             </li>
             <li>
-              <a href="#process">Süreç</a>
+              <Link href="/#process">Süreç</Link>
             </li>
             <li>
-              <a href="#pricing">Fiyatlar</a>
+              <Link href="/#pricing">Fiyatlar</Link>
             </li>
           </ul>
         </div>
